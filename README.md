@@ -75,7 +75,7 @@ src/
 
 ```bash
 git clone https://github.com/EngMohamedFathy/movies-tmdb-apis-nestjs.git
-cd your-nestjs-project
+cd movies-tmdb-apis-nestjs
 ```
 
 2. Start the application using Docker:
