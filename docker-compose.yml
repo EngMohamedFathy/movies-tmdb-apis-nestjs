@@ -14,7 +14,7 @@ services:
       redis:
         condition: service_started
     ports:
-      - '${SERVER_PORT}:8080'
+      - '8080:8080'
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
