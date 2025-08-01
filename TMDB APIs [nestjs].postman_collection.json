@@ -1,0 +1,726 @@
+{
+	"info": {
+		"_postman_id": "006eae8e-d4d3-4fbe-8c97-cfd4bd05dc13",
+		"name": "TMDB APIs [nestjs]",
+		"description": "API endpoints for the Movies System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26892460"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Token Set\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"\r",
+											"    // Check if the 'token' property exists in the response\r",
+											"    if (jsonData && jsonData.data.tokens) {\r",
+											"        // Assign the token value to the 'token_member' variable\r",
+											"        pm.environment.set('nest_adminToken', jsonData.data.tokens.access);\r",
+											"        pm.expect(jsonData.data.token).to.exist;\r",
+											"    } else {\r",
+											"        // Assert a failure condition if the token is not found\r",
+											"        pm.expect.fail(\"Token not found in the response\");\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept-Language",
+										"value": "ar",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"admin@email.com\",\n    \"password\": \"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{nest_server}}/api/admin/auth/login/",
+									"host": [
+										"{{nest_server}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"auth",
+										"login",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Movies",
+					"item": [
+						{
+							"name": "List",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept-Language",
+										"value": "ar",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{nest_server}}/api/admin/movies?page=1&limit=2&genreIds=1&genreIds=2",
+									"host": [
+										"{{nest_server}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"movies"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "2"
+										},
+										{
+											"key": "search2",
+											"value": "test2",
+											"disabled": true
+										},
+										{
+											"key": "genreIds",
+											"value": "1"
+										},
+										{
+											"key": "genreIds",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Details",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{nest_server}}/api/admin/movies/1",
+									"host": [
+										"{{nest_server}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"movies",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"test title\",\r\n    \"overview\": \"test overview\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{nest_server}}/api/admin/movies",
+									"host": [
+										"{{nest_server}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "test title 3",
+											"type": "text"
+										},
+										{
+											"key": "content",
+											"value": "test content",
+											"type": "text"
+										},
+										{
+											"key": "category_id",
+											"value": "3",
+											"type": "text"
+										},
+										{
+											"key": "tags_ids[]",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "images[]",
+											"type": "file",
+											"src": "/C:/Users/moham/Downloads/a-clean-product-focused-banner-advertise_40-WbtsOTLOInTS_JeQxcQ_eEF8Q3ZjQCeiew29xBRprQ.jpeg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{nest_server}}/api/admin/movies",
+									"host": [
+										"{{nest_server}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{nest_server}}/api/admin/movies/4",
+									"host": [
+										"{{nest_server}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"movies",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "TMDB",
+					"item": [
+						{
+							"name": "TMDB Sync",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"test title\",\r\n    \"overview\": \"test overview\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{nest_server}}/api/admin/movies/tmdb/sync",
+									"host": [
+										"{{nest_server}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"movies",
+										"tmdb",
+										"sync"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "value",
+						"value": "Bearer {{nest_adminToken}}",
+						"type": "string"
+					},
+					{
+						"key": "key",
+						"value": "Authorization",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Client",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Register",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"test12\",\n    \"email\": \"test12@mail.com\",\n    \"password\": \"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{nest_server}}/api/client/auth/register",
+									"host": [
+										"{{nest_server}}"
+									],
+									"path": [
+										"api",
+										"client",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Token Set\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"\r",
+											"    // Check if the 'token' property exists in the response\r",
+											"    if (jsonData && jsonData.data.tokens) {\r",
+											"        // Assign the token value to the 'token_member' variable\r",
+											"        pm.environment.set('django_clientToken', jsonData.data.tokens.access);\r",
+											"        pm.expect(jsonData.data.token).to.exist;\r",
+											"    } else {\r",
+											"        // Assert a failure condition if the token is not found\r",
+											"        pm.expect.fail(\"Token not found in the response\");\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept-Language",
+										"value": "ar",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"client@email.com\",\n    \"password\": \"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{nest_server}}/api/client/auth/login",
+									"host": [
+										"{{nest_server}}"
+									],
+									"path": [
+										"api",
+										"client",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "noauth"
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Movies",
+					"item": [
+						{
+							"name": "List",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept-Language",
+										"value": "ar",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{nest_server}}/api/client/movies?page=1&limit=10",
+									"host": [
+										"{{nest_server}}"
+									],
+									"path": [
+										"api",
+										"client",
+										"movies"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "search",
+											"value": "test2",
+											"disabled": true
+										},
+										{
+											"key": "genreIds",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Details",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{nest_server}}/api/client/movies/test-title-93",
+									"host": [
+										"{{nest_server}}"
+									],
+									"path": [
+										"api",
+										"client",
+										"movies",
+										"test-title-93"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add to WatchList",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"movieId\": 9\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{nest_server}}/api/client/movies/watchlist",
+									"host": [
+										"{{nest_server}}"
+									],
+									"path": [
+										"api",
+										"client",
+										"movies",
+										"watchlist"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add rating",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"movieId\": 9,\r\n    \"rating\": 5\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{nest_server}}/api/client/movies/rating",
+									"host": [
+										"{{nest_server}}"
+									],
+									"path": [
+										"api",
+										"client",
+										"movies",
+										"rating"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{django_clientToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Lookups",
+			"item": [
+				{
+					"name": "List Genres",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{nest_server}}/api/lookups/genres",
+							"host": [
+								"{{nest_server}}"
+							],
+							"path": [
+								"api",
+								"lookups",
+								"genres"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

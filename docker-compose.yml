@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: development
+    env_file:
+      - docker/.env.docker
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    ports:
+      - '${SERVER_PORT}:8081'
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: always
+    networks:
+      - custom_network
+
+  db:
+    image: postgres:17
+    env_file:
+      - docker/.env.docker
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./docker/db/initdb:/docker-entrypoint-initdb.d
+    ports:
+      - '5430:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - custom_network
+
+  redis:
+    image: redis:8.0.1
+    env_file:
+      - docker/.env.docker
+    ports:
+      - '6377:6379'
+    volumes:
+      - redis_data:/data
+    networks:
+      - custom_network
+
+volumes:
+  db_data:
+  redis_data:
+
+networks:
+  custom_network:
+    driver: bridge

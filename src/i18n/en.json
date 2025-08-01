@@ -1,0 +1,8 @@
+{
+  "greeting": "Hello",
+  "movies": {
+    "created": "Category created successfully"
+  },
+
+  "login successfully": "login successfully"
+}
